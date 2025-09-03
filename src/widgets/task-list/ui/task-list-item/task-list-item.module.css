@@ -1,30 +1,66 @@
-
-
 .taskItem {
-    display: flex;
-    align-items: center;
-    padding: 20px 0;
-    border-bottom: 1px solid var(--accent);
-  }
-  
-  .taskItem:last-child {
-    border-bottom: none;
-  }
-  
-  .taskItemLabel {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  
-  .taskItem input[type="checkbox"] {
-    min-width: 26px;
-    min-height: 26px;
-    accent-color: var(--accent);
-    outline: 1px solid var(--accent);
-  }
-  
-  .taskItemTitle {
-    font-size: 28px;
-    line-height: 40px;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--accent);
+}
+
+.taskItem:last-child {
+  border-bottom: none;
+}
+
+.taskItemLabel {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.taskItem input[type="checkbox"] {
+  min-width: 26px;
+  min-height: 26px;
+  accent-color: var(--accent);
+  outline: 1px solid var(--accent);
+}
+
+.taskItemTitle {
+  font-size: 28px;
+  line-height: 40px;
+}
+
+.taskItemActions {
+  display: flex;
+  align-items: center;
+  gap: 10px; 
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  color: var(--text); 
+}
+
+.actionButton:hover {
+  opacity: 0.7;
+}
+
+.actionButton:active {
+  opacity: 0.5;
+}
+
+
+.actionButton:last-child {
+  cursor: grab;
+}
+
+.actionButton:last-child:active {
+  cursor: grabbing;
+}
