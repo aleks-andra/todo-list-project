@@ -1,0 +1,30 @@
+
+
+.taskItem {
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--accent);
+  }
+  
+  .taskItem:last-child {
+    border-bottom: none;
+  }
+  
+  .taskItemLabel {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .taskItem input[type="checkbox"] {
+    min-width: 26px;
+    min-height: 26px;
+    accent-color: var(--accent);
+    outline: 1px solid var(--accent);
+  }
+  
+  .taskItemTitle {
+    font-size: 28px;
+    line-height: 40px;
+  }
