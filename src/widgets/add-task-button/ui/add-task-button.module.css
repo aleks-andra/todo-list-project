@@ -1,0 +1,36 @@
+.button {
+  position: absolute;
+  right: 20px;
+  bottom: -70px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 16px rgba(108, 92, 231, 0.6);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(108, 92, 231, 0.7);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+.button:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}
