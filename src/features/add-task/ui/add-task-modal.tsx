@@ -7,12 +7,14 @@ type AddTaskModalProps = {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (title: string) => void;
+  isSubTask?: boolean;
 };
 
 export const AddTaskModal: FC<AddTaskModalProps> = ({
   isOpen,
   onClose,
   onSubmit,
+  isSubTask = false,
 }) => {
   const [title, setTitle] = useState("");
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -34,7 +36,11 @@ export const AddTaskModal: FC<AddTaskModalProps> = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Новая задача">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      title={isSubTask ? "Новая подзадача" : "Новая задача"}
+    >
       <form onSubmit={handleSubmit}>
         <input
           ref={inputRef}

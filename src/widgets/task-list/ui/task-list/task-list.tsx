@@ -10,9 +10,17 @@ type Props = {
   tasks: Task[];
   onAdd?: (title: string) => void;
   onEdit?: (id: string, title: string) => void;
+  onAddSubTask?: (parentId: string, title: string) => void;
+  onEditSubTask?: (parentId: string, subTaskId: string, title: string) => void;
 };
 
-export const TaskList: FC<Props> = ({ tasks, onAdd, onEdit }) => {
+export const TaskList: FC<Props> = ({
+  tasks,
+  onAdd,
+  onEdit,
+  onAddSubTask,
+  onEditSubTask,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const openAddModal = () => setIsOpen(true);
   const closeAddModal = () => setIsOpen(false);
@@ -20,7 +28,13 @@ export const TaskList: FC<Props> = ({ tasks, onAdd, onEdit }) => {
     <section className={styles.taskContainer}>
       <ul className={styles.taskList}>
         {tasks.map((task) => (
-          <TaskListItem key={task.id} task={task} onEdit={onEdit} />
+          <TaskListItem
+            key={task.id}
+            task={task}
+            onEdit={onEdit}
+            onAddSubTask={onAddSubTask}
+            onEditSubTask={onEditSubTask}
+          />
         ))}
       </ul>
       <AddTaskButton onClick={openAddModal} />

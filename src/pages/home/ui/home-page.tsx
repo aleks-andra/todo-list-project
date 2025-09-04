@@ -20,10 +20,54 @@ export const HomePage: FC = () => {
     );
   };
 
+  const handleAddSubTask = (parentId: string, title: string) => {
+    const newSubTask: Task = {
+      id: `${parentId}-${Date.now()}`,
+      title,
+      completed: false,
+    };
+
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === parentId
+          ? {
+              ...task,
+              subtasks: [...(task.subtasks || []), newSubTask],
+            }
+          : task
+      )
+    );
+  };
+
+  const handleEditSubTask = (
+    parentId: string,
+    subTaskId: string,
+    title: string
+  ) => {
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === parentId
+          ? {
+              ...task,
+              subtasks: task.subtasks?.map((subtask) =>
+                subtask.id === subTaskId ? { ...subtask, title } : subtask
+              ),
+            }
+          : task
+      )
+    );
+  };
+
   return (
     <main className={styles.page}>
       <Header />
-      <TaskList tasks={tasks} onAdd={handleAdd} onEdit={handleEdit} />
+      <TaskList
+        tasks={tasks}
+        onAdd={handleAdd}
+        onEdit={handleEdit}
+        onAddSubTask={handleAddSubTask}
+        onEditSubTask={handleEditSubTask}
+      />
     </main>
   );
 };

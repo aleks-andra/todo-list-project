@@ -9,16 +9,27 @@ import {
   CheckIcon,
   CrossIcon,
 } from "../../../../shared/ui";
+import { AddTaskModal } from "../../../../features/add-task";
 import styles from "./task-list-item.module.css";
 
 type Props = {
   task: Task;
+  isSubTask?: boolean;
   onEdit?: (id: string, title: string) => void;
+  onAddSubTask?: (parentId: string, title: string) => void;
+  onEditSubTask?: (parentId: string, subTaskId: string, title: string) => void;
 };
 
-export const TaskListItem: FC<Props> = ({ task, onEdit }) => {
+export const TaskListItem: FC<Props> = ({
+  task,
+  isSubTask = false,
+  onEdit,
+  onAddSubTask,
+  onEditSubTask,
+}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(task.title);
+  const [isAddSubTaskModalOpen, setIsAddSubTaskModalOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -48,13 +59,23 @@ export const TaskListItem: FC<Props> = ({ task, onEdit }) => {
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       handleSave();
-    } else if (e.key === "Escape") {
+    } else if (event.key === "Escape") {
       handleCancel();
     }
   };
 
-  console.log(editTitle);
-  
+  const handleAddSubTaskClick = () => {
+    setIsAddSubTaskModalOpen(true);
+  };
+
+  const handleAddSubTask = (title: string) => {
+    onAddSubTask?.(task.id, title);
+    setIsAddSubTaskModalOpen(false);
+  };
+
+  const handleEditSubTask = (subTaskId: string, title: string) => {
+    onEditSubTask?.(task.id, subTaskId, title);
+  };
 
   if (isEditing) {
     return (
@@ -68,8 +89,9 @@ export const TaskListItem: FC<Props> = ({ task, onEdit }) => {
             ref={inputRef}
             className={styles.editInput}
             value={editTitle}
-            onChange={(event) => { 
-              setEditTitle(event.target.value)}}
+            onChange={(event) => {
+              setEditTitle(event.target.value);
+            }}
             onKeyDown={handleKeyDown}
           />
           <button
@@ -94,19 +116,23 @@ export const TaskListItem: FC<Props> = ({ task, onEdit }) => {
   }
 
   return (
+    <>
       <li className={styles.taskItem}>
         <label className={styles.taskItemLabel}>
           <input type="checkbox" checked={task.completed} />
         </label>
         <span className={styles.taskItemTitle}>{task.title}</span>
         <div className={styles.taskItemActions}>
-          <button
-            className={styles.actionButton}
-            type="button"
-            aria-label="Добавить задачу"
-          >
-            <AddIcon />
-          </button>
+          {!isSubTask && (
+            <button
+              className={styles.actionButton}
+              type="button"
+              aria-label="Добавить подзадачу"
+              onClick={handleAddSubTaskClick}
+            >
+              <AddIcon />
+            </button>
+          )}
           <button
             className={styles.actionButton}
             type="button"
@@ -131,5 +157,26 @@ export const TaskListItem: FC<Props> = ({ task, onEdit }) => {
           </button>
         </div>
       </li>
+      {!isSubTask && task.subtasks && task.subtasks.length > 0 && (
+        <ul className={styles.subtasksList}>
+          {task.subtasks.map((subtask) => (
+            <TaskListItem
+              key={subtask.id}
+              task={subtask}
+              isSubTask={true}
+              onEdit={(id, title) => handleEditSubTask(id, title)}
+            />
+          ))}
+        </ul>
+      )}
+      {!isSubTask && (
+        <AddTaskModal
+          isOpen={isAddSubTaskModalOpen}
+          onClose={() => setIsAddSubTaskModalOpen(false)}
+          onSubmit={handleAddSubTask}
+          isSubTask={true}
+        />
+      )}
+    </>
   );
 };

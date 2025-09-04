@@ -132,3 +132,20 @@
 .cancelButton:active {
   opacity: 0.6;
 }
+
+.subtasksList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-left: 40px;
+  padding-left: 20px;
+}
+
+.subtasksList .taskItem {
+  border-bottom: 1px solid var(--accent);
+  padding: 15px 0;
+}
+
+.subtasksList .taskItem:last-child {
+  border-bottom: none;
+}

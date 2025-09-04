@@ -4,4 +4,5 @@ export type Task = {
   id: TaskId;
   title: string;
   completed: boolean;
-}
+  subtasks?: Task[];
+};
