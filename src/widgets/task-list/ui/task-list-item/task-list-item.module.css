@@ -1,7 +1,6 @@
 .taskItem {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 20px 0;
   border-bottom: 1px solid var(--accent);
 }
@@ -24,6 +23,8 @@
 }
 
 .taskItemTitle {
+  padding-left: 10px;
+  word-break: break-all;
   font-size: 28px;
   line-height: 40px;
 }
@@ -31,7 +32,9 @@
 .taskItemActions {
   display: flex;
   align-items: center;
-  gap: 10px; 
+  gap: 10px;
+  margin-left: auto;
+  padding-top: 4px;
 }
 
 .actionButton {
@@ -45,7 +48,7 @@
   background: transparent;
   cursor: pointer;
   transition: opacity 0.2s ease;
-  color: var(--text); 
+  color: var(--text);
 }
 
 .actionButton:hover {
@@ -56,11 +59,76 @@
   opacity: 0.5;
 }
 
-
 .actionButton:last-child {
   cursor: grab;
 }
 
 .actionButton:last-child:active {
   cursor: grabbing;
+}
+
+.editContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.editInput {
+  font-family: var(--font-family-primary);
+  border: none;
+  background: transparent;
+  color: var(--text);
+  border-radius: 4px;
+  padding: 0 10px;
+  font-size: 28px;
+  line-height: 40px;
+  outline: none;
+  flex: 1;
+}
+
+.saveButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: var(--accent);
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  transition: opacity 0.2s ease;
+}
+
+.saveButton:hover {
+  opacity: 0.8;
+}
+
+.saveButton:active {
+  opacity: 0.6;
+}
+
+.cancelButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: #e74c3c;
+  border-radius: 4px;
+  cursor: pointer;
+  color: white;
+  transition: opacity 0.2s ease;
+}
+
+.cancelButton:hover {
+  opacity: 0.8;
+}
+
+.cancelButton:active {
+  opacity: 0.6;
 }

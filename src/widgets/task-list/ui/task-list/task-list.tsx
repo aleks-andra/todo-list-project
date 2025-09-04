@@ -9,9 +9,10 @@ import styles from "./task-list.module.css";
 type Props = {
   tasks: Task[];
   onAdd?: (title: string) => void;
+  onEdit?: (id: string, title: string) => void;
 };
 
-export const TaskList: FC<Props> = ({ tasks, onAdd }) => {
+export const TaskList: FC<Props> = ({ tasks, onAdd, onEdit }) => {
   const [isOpen, setIsOpen] = useState(false);
   const openAddModal = () => setIsOpen(true);
   const closeAddModal = () => setIsOpen(false);
@@ -19,7 +20,7 @@ export const TaskList: FC<Props> = ({ tasks, onAdd }) => {
     <section className={styles.taskContainer}>
       <ul className={styles.taskList}>
         {tasks.map((task) => (
-          <TaskListItem key={task.id} task={task} />
+          <TaskListItem key={task.id} task={task} onEdit={onEdit} />
         ))}
       </ul>
       <AddTaskButton onClick={openAddModal} />

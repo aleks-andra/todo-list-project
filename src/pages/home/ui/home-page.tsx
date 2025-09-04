@@ -14,10 +14,16 @@ export const HomePage: FC = () => {
     setTasks((prev) => [newTask, ...prev]);
   };
 
+  const handleEdit = (id: string, title: string) => {
+    setTasks((prev) =>
+      prev.map((task) => (task.id === id ? { ...task, title } : task))
+    );
+  };
+
   return (
     <main className={styles.page}>
       <Header />
-      <TaskList tasks={tasks} onAdd={handleAdd} />
+      <TaskList tasks={tasks} onAdd={handleAdd} onEdit={handleEdit} />
     </main>
   );
 };
