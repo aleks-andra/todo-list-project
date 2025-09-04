@@ -1,0 +1,15 @@
+.actions {
+  composes: actions from "../../../shared/ui/modal/ui/modal.module.css";
+}
+
+.buttonPrimary {
+  composes: buttonPrimary from "../../../shared/ui/modal/ui/modal.module.css";
+}
+
+.buttonSecondary {
+  composes: buttonSecondary from "../../../shared/ui/modal/ui/modal.module.css";
+}
+
+.input {
+  composes: input from "../../../shared/ui/modal/ui/modal.module.css";
+}

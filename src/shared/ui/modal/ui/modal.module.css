@@ -1,0 +1,70 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.container {
+  background: #1f1f22;
+  color: #fff;
+  border-radius: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  width: 520px;
+  max-width: calc(100% - 48px);
+  min-height: 300px;
+  padding: 32px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.header {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 28px 0;
+}
+
+.actions {
+  margin-top: 36px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.buttonPrimary {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.buttonSecondary {
+  background: transparent;
+  color: #c7c7d0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.input {
+  width: 100%;
+  background: transparent;
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+  padding: 18px 16px;
+  font-size: 16px;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.35);
+}
