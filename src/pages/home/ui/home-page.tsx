@@ -87,6 +87,25 @@ export const HomePage: FC = () => {
     );
   };
 
+  const handleDelete = (id: string) => {
+    setTasks((prev) => prev.filter((task) => task.id !== id));
+  };
+
+  const handleDeleteSubTask = (parentId: string, subTaskId: string) => {
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === parentId
+          ? {
+              ...task,
+              subtasks: task.subtasks?.filter(
+                (subtask) => subtask.id !== subTaskId
+              ),
+            }
+          : task
+      )
+    );
+  };
+
   return (
     <main className={styles.page}>
       <Header />
@@ -98,6 +117,8 @@ export const HomePage: FC = () => {
         onEditSubTask={handleEditSubTask}
         onToggleComplete={handleToggleComplete}
         onToggleCollapse={handleToggleCollapse}
+        onDelete={handleDelete}
+        onDeleteSubTask={handleDeleteSubTask}
       />
     </main>
   );

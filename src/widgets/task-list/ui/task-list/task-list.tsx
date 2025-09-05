@@ -14,6 +14,8 @@ type Props = {
   onEditSubTask?: (parentId: string, subTaskId: string, title: string) => void;
   onToggleComplete?: (id: string) => void;
   onToggleCollapse?: (id: string) => void;
+  onDelete?: (id: string) => void;
+  onDeleteSubTask?: (parentId: string, subTaskId: string) => void;
 };
 
 export const TaskList: FC<Props> = ({
@@ -24,6 +26,8 @@ export const TaskList: FC<Props> = ({
   onEditSubTask,
   onToggleComplete,
   onToggleCollapse,
+  onDelete,
+  onDeleteSubTask,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const openAddModal = () => setIsOpen(true);
@@ -40,6 +44,8 @@ export const TaskList: FC<Props> = ({
             onEditSubTask={onEditSubTask}
             onToggleComplete={onToggleComplete}
             onToggleCollapse={onToggleCollapse}
+            onDelete={onDelete}
+            onDeleteSubTask={onDeleteSubTask}
           />
         ))}
       </ul>

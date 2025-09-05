@@ -22,6 +22,8 @@ type Props = {
   onEditSubTask?: (parentId: string, subTaskId: string, title: string) => void;
   onToggleComplete?: (id: string) => void;
   onToggleCollapse?: (id: string) => void;
+  onDelete?: (id: string) => void;
+  onDeleteSubTask?: (parentId: string, subTaskId: string) => void;
 };
 
 export const TaskListItem: FC<Props> = ({
@@ -32,6 +34,8 @@ export const TaskListItem: FC<Props> = ({
   onEditSubTask,
   onToggleComplete,
   onToggleCollapse,
+  onDelete,
+  onDeleteSubTask,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(task.title);
@@ -108,6 +112,14 @@ export const TaskListItem: FC<Props> = ({
 
   const closeAddSubTaskModal = () => {
     setIsAddSubTaskModalOpen(false);
+  };
+
+  const handleDelete = () => {
+    onDelete?.(task.id);
+  };
+
+  const handleDeleteSubTask = (subTaskId: string) => {
+    onDeleteSubTask?.(task.id, subTaskId);
   };
 
   if (isEditing) {
@@ -201,6 +213,7 @@ export const TaskListItem: FC<Props> = ({
               className={styles.actionButton}
               type="button"
               aria-label="Удалить задачу"
+              onClick={handleDelete}
             >
               <DeleteIcon />
             </button>
@@ -245,6 +258,7 @@ export const TaskListItem: FC<Props> = ({
               isSubTask={true}
               onEdit={(id, title) => handleEditSubTask(id, title)}
               onToggleComplete={onToggleComplete}
+              onDelete={(id) => handleDeleteSubTask(id)}
             />
           ))}
         </ul>
