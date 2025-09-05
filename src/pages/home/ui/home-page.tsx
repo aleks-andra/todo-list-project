@@ -2,12 +2,21 @@ import type { FC } from "react";
 import { useState } from "react";
 import { Header } from "../../../widgets/header";
 import { TaskList } from "../../../widgets/task-list";
-import { mockTasks } from "../../../entities/task";
+import { mockTasks, TaskFilter } from "../../../entities/task";
+import { useTaskFiltering } from "../../../shared/hooks";
 import type { Task } from "../../../entities/task";
 import styles from "./home-page.module.css";
 
 export const HomePage: FC = () => {
   const [tasks, setTasks] = useState<Task[]>(mockTasks);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filter, setFilter] = useState<TaskFilter>(TaskFilter.INCOMPLETE);
+
+  const { filteredTasks } = useTaskFiltering({
+    tasks,
+    searchQuery,
+    filter,
+  });
 
   const handleAdd = (title: string) => {
     const newTask: Task = {
@@ -180,9 +189,14 @@ export const HomePage: FC = () => {
 
   return (
     <main className={styles.page}>
-      <Header />
+      <Header
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        filter={filter}
+        onFilterChange={setFilter}
+      />
       <TaskList
-        tasks={tasks}
+        tasks={filteredTasks}
         onAdd={handleAdd}
         onEdit={handleEdit}
         onAddSubTask={handleAddSubTask}

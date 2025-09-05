@@ -17,6 +17,7 @@ import type { Task } from "../../../../entities/task";
 import { TaskListItem } from "../task-list-item/task-list-item";
 import { AddTaskButton } from "../../../add-task-button";
 import { AddTaskModal } from "../../../../features/add-task";
+import { EmptyState } from "../../../../shared/ui/empty-state";
 import styles from "./task-list.module.css";
 
 type Props = {
@@ -83,6 +84,21 @@ export const TaskList: FC<Props> = ({
       (task) => task.subtasks?.map((subtask) => subtask.id) || []
     ),
   ];
+
+
+  if (tasks.length === 0) {
+    return (
+      <section className={styles.taskContainer}>
+        <EmptyState message="Здесь пусто" />
+        <AddTaskButton onClick={openAddModal} />
+        <AddTaskModal
+          isOpen={isOpen}
+          onClose={closeAddModal}
+          onSubmit={(title) => onAdd?.(title)}
+        />
+      </section>
+    );
+  }
 
   return (
     <section className={styles.taskContainer}>

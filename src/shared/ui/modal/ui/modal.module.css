@@ -32,7 +32,7 @@
   margin-top: 36px;
   display: flex;
   gap: 12px;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
 .buttonPrimary {
@@ -53,6 +53,17 @@
   cursor: pointer;
 }
 
+.buttonPrimary:hover {
+  background: #5848c2;
+  filter: none;
+}
+
+.buttonSecondary:hover {
+  color: #e7e7e7;
+  border-color: rgba(231, 231, 231, 0.5);
+  background: rgba(108, 99, 255, 0.1);
+}
+
 .input {
   width: 100%;
   background: transparent;
@@ -60,7 +71,8 @@
   border: 2px solid rgba(255, 255, 255, 0.6);
   border-radius: 10px;
   padding: 18px 16px;
-  font-size: 16px;
+  margin-bottom: 30px;
+  font-size: 18px;
 }
 
 .input:focus {

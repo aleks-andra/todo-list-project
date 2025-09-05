@@ -57,14 +57,14 @@ export const AddTaskModal: FC<AddTaskModalProps> = ({
             className={styles.buttonSecondary}
             onClick={onClose}
           >
-            Отменить
+            ОТМЕНИТЬ
           </button>
           <button
             type="submit"
             className={styles.buttonPrimary}
             disabled={!title.trim()}
           >
-            Сохранить
+            СОХРАНИТЬ
           </button>
         </div>
       </form>

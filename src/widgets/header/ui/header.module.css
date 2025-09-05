@@ -2,7 +2,30 @@
   padding: 40px 0 20px;
 }
 
-.header h1 {
+.title {
   text-align: center;
   font-size: 48px;
+  margin-bottom: 32px;
+  color: #ffffff;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 750px;
+  margin: 0 auto;
+  padding: 0 16px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .controls {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .title {
+    font-size: 36px;
+  }
 }

@@ -6,8 +6,19 @@
   composes: buttonPrimary from "../../../shared/ui/modal/ui/modal.module.css";
 }
 
+.buttonPrimary:hover {
+  background: #5848c2;
+  filter: none;
+}
+
 .buttonSecondary {
   composes: buttonSecondary from "../../../shared/ui/modal/ui/modal.module.css";
+}
+
+.buttonSecondary:hover {
+  color: #e7e7e7;
+  border-color: rgba(231, 231, 231, 0.5);
+  background: rgba(108, 99, 255, 0.1);
 }
 
 .input {
