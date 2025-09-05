@@ -6,4 +6,5 @@ export type Task = {
   completed: boolean;
   subtasks?: Task[];
   isCollapsed?: boolean;
+  priority: number;
 };

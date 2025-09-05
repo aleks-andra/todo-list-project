@@ -1,5 +1,7 @@
 import type { FC, KeyboardEvent } from "react";
 import { useState, useRef, useEffect } from "react";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import type { Task } from "../../../../entities/task";
 import {
   AddIcon,
@@ -44,6 +46,15 @@ export const TaskListItem: FC<Props> = ({
   const [isHovered, setIsHovered] = useState(false);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: task.id });
 
   const hasSubtasks = task.subtasks && task.subtasks.length > 0;
   const isCollapsed = task.isCollapsed ?? false;
@@ -122,6 +133,12 @@ export const TaskListItem: FC<Props> = ({
     onDeleteSubTask?.(task.id, subTaskId);
   };
 
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
   if (isEditing) {
     return (
       <li className={styles.taskItem}>
@@ -165,7 +182,9 @@ export const TaskListItem: FC<Props> = ({
   return (
     <>
       <li
-        className={styles.taskItem}
+        ref={setNodeRef}
+        style={style}
+        className={`${styles.taskItem} ${isDragging ? styles.dragging : ""}`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
@@ -221,6 +240,8 @@ export const TaskListItem: FC<Props> = ({
               className={styles.actionButton}
               type="button"
               aria-label="Перетащить задачу"
+              {...attributes}
+              {...listeners}
             >
               <DragIcon />
             </button>

@@ -3,25 +3,32 @@ import type { Task } from "./types";
 export const mockTasks: Task[] = [
   {
     id: "1",
-    title: "Read recommended book",
+    title: "Прочитать рекомендованную книгу",
     completed: false,
-    isCollapsed: false,
+    isCollapsed: true,
+    priority: 1,
     subtasks: [
-      { id: "1-1", title: "Find book recommendations", completed: false },
-      { id: "1-2", title: "Order book online", completed: true },
+      {
+        id: "1-1",
+        title: "Найти рекомендованные книги",
+        completed: false,
+        priority: 1, 
+      },
+      { id: "1-2", title: "Заказать книгу онлайн", completed: true, priority: 2 },
     ],
   },
   {
     id: "2",
-    title: "Vacation planning",
+    title: "Заняться планированием отпуска",
     completed: false,
     isCollapsed: true,
+    priority: 2, 
     subtasks: [
-      { id: "2-1", title: "Choose destination", completed: false },
-      { id: "2-2", title: "Book flights", completed: false },
-      { id: "2-3", title: "Reserve hotel", completed: false },
+      { id: "2-1", title: "Выбрать место для отпуска", completed: false, priority: 1 },
+      { id: "2-2", title: "Заказать билеты", completed: false, priority: 2 },
+      { id: "2-3", title: "Забронировать отель", completed: false, priority: 3 },
     ],
   },
-  { id: "3", title: "Cook dinner", completed: false },
-  { id: "4", title: "Sign up for training", completed: false },
+  { id: "3", title: "Приготовить ужин", completed: false, priority: 3 },
+  { id: "4", title: "Записаться на тренировку", completed: false, priority: 4 }, 
 ];

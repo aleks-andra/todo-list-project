@@ -10,8 +10,19 @@ export const HomePage: FC = () => {
   const [tasks, setTasks] = useState<Task[]>(mockTasks);
 
   const handleAdd = (title: string) => {
-    const newTask: Task = { id: String(Date.now()), title, completed: false };
-    setTasks((prev) => [newTask, ...prev]);
+    const newTask: Task = {
+      id: String(Date.now()),
+      title,
+      completed: false,
+      priority: 1,
+    };
+    setTasks((prev) => {
+      const updatedTasks = [newTask, ...prev];
+      return updatedTasks.map((task, index) => ({
+        ...task,
+        priority: index + 1,
+      }));
+    });
   };
 
   const handleEdit = (id: string, title: string) => {
@@ -25,17 +36,25 @@ export const HomePage: FC = () => {
       id: `${parentId}-${Date.now()}`,
       title,
       completed: false,
+      priority: 1,
     };
 
     setTasks((prev) =>
-      prev.map((task) =>
-        task.id === parentId
-          ? {
-              ...task,
-              subtasks: [...(task.subtasks || []), newSubTask],
-            }
-          : task
-      )
+      prev.map((task) => {
+        if (task.id !== parentId) return task;
+
+        const updatedSubtasks = [...(task.subtasks || []), newSubTask];
+
+        const subtasksWithPriority = updatedSubtasks.map((subtask, index) => ({
+          ...subtask,
+          priority: index + 1,
+        }));
+
+        return {
+          ...task,
+          subtasks: subtasksWithPriority,
+        };
+      })
     );
   };
 
@@ -106,6 +125,59 @@ export const HomePage: FC = () => {
     );
   };
 
+  const handleTaskReorder = (activeId: string, overId: string) => {
+    setTasks((prev) => {
+      const oldIndex = prev.findIndex((task) => task.id === activeId);
+      const newIndex = prev.findIndex((task) => task.id === overId);
+
+      if (oldIndex === -1 || newIndex === -1) return prev;
+
+      const newTasks = [...prev];
+      const [movedTask] = newTasks.splice(oldIndex, 1);
+      newTasks.splice(newIndex, 0, movedTask);
+
+      return newTasks.map((task, index) => ({
+        ...task,
+        priority: index + 1,
+      }));
+    });
+  };
+
+  const handleSubTaskReorder = (
+    parentId: string,
+    activeId: string,
+    overId: string
+  ) => {
+    setTasks((prev) =>
+      prev.map((task) => {
+        if (task.id !== parentId || !task.subtasks) return task;
+
+        const oldIndex = task.subtasks.findIndex(
+          (subtask) => subtask.id === activeId
+        );
+        const newIndex = task.subtasks.findIndex(
+          (subtask) => subtask.id === overId
+        );
+
+        if (oldIndex === -1 || newIndex === -1) return task;
+
+        const newSubtasks = [...task.subtasks];
+        const [movedSubtask] = newSubtasks.splice(oldIndex, 1);
+        newSubtasks.splice(newIndex, 0, movedSubtask);
+
+        const updatedSubtasks = newSubtasks.map((subtask, index) => ({
+          ...subtask,
+          priority: index + 1,
+        }));
+
+        return {
+          ...task,
+          subtasks: updatedSubtasks,
+        };
+      })
+    );
+  };
+
   return (
     <main className={styles.page}>
       <Header />
@@ -119,6 +191,8 @@ export const HomePage: FC = () => {
         onToggleCollapse={handleToggleCollapse}
         onDelete={handleDelete}
         onDeleteSubTask={handleDeleteSubTask}
+        onTaskReorder={handleTaskReorder}
+        onSubTaskReorder={handleSubTaskReorder}
       />
     </main>
   );

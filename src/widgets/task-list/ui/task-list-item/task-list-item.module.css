@@ -3,6 +3,14 @@
   align-items: center;
   padding: 20px 0;
   border-bottom: 1px solid var(--accent);
+  transition: all 0.2s ease;
+}
+
+.taskItem.dragging {
+  opacity: 0.5;
+  transform: rotate(2deg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
 }
 
 .taskItem:last-child {
@@ -109,6 +117,11 @@
 
 .actionButton:last-child:active {
   cursor: grabbing;
+}
+
+.actionButton:last-child:hover {
+  background-color: rgba(108, 99, 255, 0.1);
+  border-radius: 4px;
 }
 
 .editContainer {
