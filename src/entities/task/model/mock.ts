@@ -5,6 +5,7 @@ export const mockTasks: Task[] = [
     id: "1",
     title: "Read recommended book",
     completed: false,
+    isCollapsed: false,
     subtasks: [
       { id: "1-1", title: "Find book recommendations", completed: false },
       { id: "1-2", title: "Order book online", completed: true },
@@ -14,6 +15,7 @@ export const mockTasks: Task[] = [
     id: "2",
     title: "Vacation planning",
     completed: false,
+    isCollapsed: true,
     subtasks: [
       { id: "2-1", title: "Choose destination", completed: false },
       { id: "2-2", title: "Book flights", completed: false },

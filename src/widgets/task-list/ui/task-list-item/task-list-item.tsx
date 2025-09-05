@@ -8,6 +8,8 @@ import {
   DragIcon,
   CheckIcon,
   CrossIcon,
+  ArrowDownIcon,
+  ArrowRightIcon,
 } from "../../../../shared/ui";
 import { AddTaskModal } from "../../../../features/add-task";
 import styles from "./task-list-item.module.css";
@@ -18,6 +20,8 @@ type Props = {
   onEdit?: (id: string, title: string) => void;
   onAddSubTask?: (parentId: string, title: string) => void;
   onEditSubTask?: (parentId: string, subTaskId: string, title: string) => void;
+  onToggleComplete?: (id: string) => void;
+  onToggleCollapse?: (id: string) => void;
 };
 
 export const TaskListItem: FC<Props> = ({
@@ -26,11 +30,20 @@ export const TaskListItem: FC<Props> = ({
   onEdit,
   onAddSubTask,
   onEditSubTask,
+  onToggleComplete,
+  onToggleCollapse,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(task.title);
+
   const [isAddSubTaskModalOpen, setIsAddSubTaskModalOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const hasSubtasks = task.subtasks && task.subtasks.length > 0;
+  const isCollapsed = task.isCollapsed ?? false;
+  const subtaskCount = task.subtasks?.length || 0;
 
   useEffect(() => {
     if (isEditing) {
@@ -64,6 +77,14 @@ export const TaskListItem: FC<Props> = ({
     }
   };
 
+  const handleToggleComplete = () => {
+    onToggleComplete?.(task.id);
+  };
+
+  const handleToggleCollapse = () => {
+    onToggleCollapse?.(task.id);
+  };
+
   const handleAddSubTaskClick = () => {
     setIsAddSubTaskModalOpen(true);
   };
@@ -77,11 +98,27 @@ export const TaskListItem: FC<Props> = ({
     onEditSubTask?.(task.id, subTaskId, title);
   };
 
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const closeAddSubTaskModal = () => {
+    setIsAddSubTaskModalOpen(false);
+  };
+
   if (isEditing) {
     return (
       <li className={styles.taskItem}>
         <label className={styles.taskItemLabel}>
-          <input type="checkbox" checked={task.completed} />
+          <input
+            type="checkbox"
+            checked={task.completed}
+            onChange={handleToggleComplete}
+          />
         </label>
 
         <div className={styles.editContainer}>
@@ -89,9 +126,7 @@ export const TaskListItem: FC<Props> = ({
             ref={inputRef}
             className={styles.editInput}
             value={editTitle}
-            onChange={(event) => {
-              setEditTitle(event.target.value);
-            }}
+            onChange={(event) => setEditTitle(event.target.value)}
             onKeyDown={handleKeyDown}
           />
           <button
@@ -117,62 +152,108 @@ export const TaskListItem: FC<Props> = ({
 
   return (
     <>
-      <li className={styles.taskItem}>
+      <li
+        className={styles.taskItem}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         <label className={styles.taskItemLabel}>
-          <input type="checkbox" checked={task.completed} />
+          <input
+            type="checkbox"
+            checked={task.completed}
+            onChange={handleToggleComplete}
+          />
         </label>
-        <span className={styles.taskItemTitle}>{task.title}</span>
-        <div className={styles.taskItemActions}>
-          {!isSubTask && (
+
+        <span
+          className={`${styles.taskItemTitle} ${
+            task.completed ? styles.completed : ""
+          }`}
+        >
+          {task.title}
+        </span>
+
+        <div className={styles.taskItemRightSection}>
+          <div
+            className={`${styles.taskItemActions} ${
+              isHovered ? styles.visible : styles.hidden
+            }`}
+          >
+            {!isSubTask && (
+              <button
+                className={styles.actionButton}
+                type="button"
+                aria-label="Добавить подзадачу"
+                onClick={handleAddSubTaskClick}
+              >
+                <AddIcon />
+              </button>
+            )}
             <button
               className={styles.actionButton}
               type="button"
-              aria-label="Добавить подзадачу"
-              onClick={handleAddSubTaskClick}
+              aria-label="Редактировать задачу"
+              onClick={handleEditClick}
             >
-              <AddIcon />
+              <EditIcon />
+            </button>
+            <button
+              className={styles.actionButton}
+              type="button"
+              aria-label="Удалить задачу"
+            >
+              <DeleteIcon />
+            </button>
+            <button
+              className={styles.actionButton}
+              type="button"
+              aria-label="Перетащить задачу"
+            >
+              <DragIcon />
+            </button>
+          </div>
+
+          {hasSubtasks && (
+            <button
+              className={styles.collapseButton}
+              type="button"
+              aria-label={
+                isCollapsed ? "Развернуть подзадачи" : "Свернуть подзадачи"
+              }
+              onClick={handleToggleCollapse}
+            >
+              {isCollapsed ? <ArrowRightIcon /> : <ArrowDownIcon />}
             </button>
           )}
-          <button
-            className={styles.actionButton}
-            type="button"
-            aria-label="Редактировать задачу"
-            onClick={handleEditClick}
-          >
-            <EditIcon />
-          </button>
-          <button
-            className={styles.actionButton}
-            type="button"
-            aria-label="Удалить задачу"
-          >
-            <DeleteIcon />
-          </button>
-          <button
-            className={styles.actionButton}
-            type="button"
-            aria-label="Перетащить задачу"
-          >
-            <DragIcon />
-          </button>
+
+          {hasSubtasks && (
+            <div className={styles.subtaskCounter}>{subtaskCount}</div>
+          )}
         </div>
       </li>
-      {!isSubTask && task.subtasks && task.subtasks.length > 0 && (
-        <ul className={styles.subtasksList}>
-          {task.subtasks.map((subtask) => (
+
+      {!isSubTask && hasSubtasks && (
+        <ul
+          className={`${styles.subtasksList} ${
+            isCollapsed ? styles.collapsed : ""
+          }`}
+        >
+          {task.subtasks!.map((subtask) => (
             <TaskListItem
               key={subtask.id}
               task={subtask}
               isSubTask={true}
               onEdit={(id, title) => handleEditSubTask(id, title)}
+              onToggleComplete={onToggleComplete}
             />
           ))}
         </ul>
       )}
+
       {!isSubTask && (
         <AddTaskModal
           isOpen={isAddSubTaskModalOpen}
-          onClose={() => setIsAddSubTaskModalOpen(false)}
+          onClose={closeAddSubTaskModal}
           onSubmit={handleAddSubTask}
           isSubTask={true}
         />

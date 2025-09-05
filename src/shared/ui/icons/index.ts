@@ -4,3 +4,5 @@ export { DeleteIcon } from "./delete-icon";
 export { DragIcon } from "./drag-icon";
 export { CheckIcon } from "./check-icon";
 export { CrossIcon } from "./cross-icon";
+export { ArrowDownIcon } from "./arrow-down-icon";
+export { ArrowRightIcon } from "./arrow-right-icon";

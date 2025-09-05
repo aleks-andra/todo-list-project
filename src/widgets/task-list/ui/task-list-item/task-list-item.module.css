@@ -20,6 +20,30 @@
   min-height: 26px;
   accent-color: var(--accent);
   outline: 1px solid var(--accent);
+  background: transparent;
+  background-color: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+}
+
+.taskItem input[type="checkbox"]:checked {
+  background: var(--accent);
+  background-color: var(--accent);
+}
+
+.taskItem input[type="checkbox"]:checked::after {
+  content: "✓";
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 
 .taskItemTitle {
@@ -29,12 +53,32 @@
   line-height: 40px;
 }
 
-.taskItemActions {
+.taskItemTitle.completed {
+  text-decoration: line-through;
+  color: #6b6b6b;
+}
+
+.taskItemRightSection {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-left: auto;
   padding-top: 4px;
+}
+
+.taskItemActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: opacity 0.2s ease;
+}
+
+.taskItemActions.visible {
+  opacity: 1;
+}
+
+.taskItemActions.hidden {
+  opacity: 0;
 }
 
 .actionButton {
@@ -139,6 +183,15 @@
   margin: 0;
   margin-left: 40px;
   padding-left: 20px;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  max-height: 1000px;
+  opacity: 1;
+}
+
+.subtasksList.collapsed {
+  max-height: 0;
+  opacity: 0;
 }
 
 .subtasksList .taskItem {
@@ -148,4 +201,37 @@
 
 .subtasksList .taskItem:last-child {
   border-bottom: none;
+}
+
+.subtaskCounter {
+  background-color: #8b5cf6;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  min-width: 20px;
+  text-align: center;
+}
+
+.collapseButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  color: var(--text);
+}
+
+.collapseButton:hover {
+  opacity: 0.7;
+}
+
+.collapseButton:active {
+  opacity: 0.5;
 }

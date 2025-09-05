@@ -5,4 +5,5 @@ export type Task = {
   title: string;
   completed: boolean;
   subtasks?: Task[];
+  isCollapsed?: boolean;
 };

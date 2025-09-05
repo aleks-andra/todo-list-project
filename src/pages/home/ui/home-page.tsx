@@ -58,6 +58,35 @@ export const HomePage: FC = () => {
     );
   };
 
+  const handleToggleComplete = (id: string) => {
+    setTasks((prev) =>
+      prev.map((task) => {
+        if (task.id === id) {
+          return { ...task, completed: !task.completed };
+        }
+
+        if (task.subtasks) {
+          const updatedSubtasks = task.subtasks.map((subtask) =>
+            subtask.id === id
+              ? { ...subtask, completed: !subtask.completed }
+              : subtask
+          );
+          return { ...task, subtasks: updatedSubtasks };
+        }
+
+        return task;
+      })
+    );
+  };
+
+  const handleToggleCollapse = (id: string) => {
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === id ? { ...task, isCollapsed: !task.isCollapsed } : task
+      )
+    );
+  };
+
   return (
     <main className={styles.page}>
       <Header />
@@ -67,6 +96,8 @@ export const HomePage: FC = () => {
         onEdit={handleEdit}
         onAddSubTask={handleAddSubTask}
         onEditSubTask={handleEditSubTask}
+        onToggleComplete={handleToggleComplete}
+        onToggleCollapse={handleToggleCollapse}
       />
     </main>
   );
