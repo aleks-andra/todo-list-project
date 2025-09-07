@@ -4,6 +4,7 @@
   align-items: center;
   flex: 1;
   max-width: 500px;
+  width: 100%;
 }
 
 .searchIcon {

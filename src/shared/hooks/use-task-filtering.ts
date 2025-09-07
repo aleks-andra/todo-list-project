@@ -27,12 +27,7 @@ export const useTaskFiltering = ({
       result = result.filter((task) => {
         const title = task.title.toLowerCase();
 
-        if (title.startsWith(query)) {
-          return true;
-        }
-
-        const firstWord = title.split(" ")[0];
-        return firstWord.startsWith(query);
+        return title.includes(query);
       });
     }
 

@@ -4,7 +4,7 @@
 
 .title {
   text-align: center;
-  font-size: 48px;
+  font-size: 26px;
   margin-bottom: 32px;
   color: #ffffff;
 }
@@ -19,13 +19,15 @@
   width: 100%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .controls {
     flex-direction: column;
     gap: 12px;
+    max-width: 100%;
+    padding: 0 16px;
   }
 
   .title {
-    font-size: 36px;
+    font-size: 20px;
   }
 }
